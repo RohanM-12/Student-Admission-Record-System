@@ -1,0 +1,1415 @@
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.Image;
+import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.io.IOException;
+import java.sql.*;
+
+ 
+ 
+    //DATABASE PASS=123
+    //DATABSE username=root;
+
+    class Main extends JFrame {
+    	
+    JLabel l1, header, l2, l3, l4,
+        l5, l6, l7, l8,
+        l9, l10, l12, l13,
+        l14, l11, l15;
+ 
+    JTextField tf1, tf2, tf3,
+        tf4, tf6,
+        tf7, tf8, tf9,
+        tf10;
+ 
+    JTextArea area2, area1;
+ 
+    JRadioButton rb1, rb2, rb3,
+        rb4, rb5, rb6,
+        rb7;
+    int srn;
+
+
+     
+   //constructor
+    Main()
+    {
+    	setContentPane(new JLabel(new ImageIcon("D:\\GPK\\5th Sem\\Projects\\AJP\\bg6.png")));
+    	
+        JLabel Title=new JLabel("Admission Management System");
+        Title.setBounds(300, 10, 550, 50);
+        Title.setFont(new Font("Serif", Font.BOLD, 30));
+
+        
+        add(Title);
+        
+        l1 = new JLabel("Admission - Information");
+        l1.setBounds(550, 100, 250, 20);
+        l1.setFont(new Font("Serif", Font.BOLD, 21));
+        
+         header = new JLabel("Student Information");
+         header.setFont(new Font("Serif", Font.BOLD, 20));
+         
+        header.setBounds(50, 100, 190, 20);
+        
+        l2 = new JLabel(
+            "First Name:");
+        l2.setBounds(50, 150, 250, 20);
+ 
+        tf1 = new JTextField();
+        tf1.setBounds(250, 150, 250, 30);
+        onlyChars(tf1);
+      
+        
+ 
+        l3 = new JLabel(
+            "Last Name:");
+        l3.setBounds(50, 200, 250, 30);
+        tf2 = new JTextField();
+        tf2.setBounds(250, 200, 250, 30);
+        onlyChars(tf2);
+ 
+        l4 = new JLabel("Enrollment Number:");
+        l4.setBounds(50, 250, 250, 20);
+        tf3 = new JTextField();
+        tf3.setBounds(250, 250, 250, 30);
+        
+        checkEnrollno(tf3);//validate 
+ 
+        l5 = new JLabel("Email ID:");
+        l5.setBounds(50, 300, 250, 30);
+ 
+        tf4 = new JTextField();
+        tf4.setBounds(250, 300, 250, 30);
+ 
+        l6 = new JLabel("Contact Number:");
+        l6.setBounds(50, 350, 250, 20);
+ 
+       JTextField tf5 = new JTextField();
+        tf5.setBounds(250, 350, 250, 30);
+       checkContact(tf5);//validate
+      
+ 
+        l7 = new JLabel("Address:");
+        l7.setBounds(50, 400, 250, 20);
+        
+ 
+        area1 = new JTextArea();
+        area1.setBounds(250, 400, 250, 90);
+ 
+        l9 = new JLabel("Gender:");
+        l9.setBounds(50, 500, 250, 30);
+ 
+        JRadioButton r5
+            = new JRadioButton(" Male");
+        JRadioButton r6
+            = new JRadioButton(" Female");
+ 
+        r5.setBounds(250, 500, 100, 30);
+        r6.setBounds(350, 500, 100, 30);
+ 
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(r5);
+        bg.add(r6);
+ 
+        l10 = new JLabel("Nationality:");
+        l10.setBounds(50, 550, 250, 30);
+      //  tf6 = new JTextField();
+        String n1[]= {"Indian","Others"};
+        JComboBox nati=new JComboBox(n1);
+        
+     
+        nati.setBounds(250, 550, 250, 30);
+       // tf6.setBounds(250, 550, 250, 30);
+        //onlyChars(tf6);
+     
+        
+        l11 = new JLabel(
+            "Year of passing 10th");
+        l11.setBounds(50, 600, 250, 30);
+ 
+        String years10[]
+            = { "2017" , "2018" , "2019" , "2020","2021" };
+ 
+        final JComboBox cb1
+            = new JComboBox(years10);
+ 
+        cb1.setBounds(250, 600, 90, 30);
+ 
+        l12 = new JLabel(
+            "Year of passing 12th");
+        l12.setBounds(50, 650, 250, 30);
+ 
+        String years12[]
+            = { "--","2021","2020","2019", "2018", "2017" };
+        final JComboBox cb2
+        = new JComboBox(years12);
+
+        cb2.setBounds(250, 660, 90, 30);
+ 
+        l13 = new JLabel(
+            "Percentage in 10th:");
+        l13.setBounds(50, 700, 250, 30);
+ 
+        tf7 = new JTextField();
+        tf7.setBounds(250, 700, 250, 30);
+     onlyIntegers(tf7);
+ 
+        l14 = new JLabel("Percentage in 12th:");
+        l14.setBounds(50, 750, 250, 30);
+ 
+        tf8 = new JTextField();
+        tf8.setBounds(250, 750, 250, 30);
+       onlyIntegers(tf8);
+ 
+        ImageIcon i2 = new ImageIcon("2.png");
+        JLabel l15
+            = new JLabel("", i2, JLabel.CENTER);
+ 
+        l15.setBounds(900, 50, 600, 200);
+ 
+    
+        l8 = new JLabel(
+            "SELECT BRANCH:");
+        l8.setBounds(550, 270, 250, 30);
+ 
+
+ 
+        ButtonGroup bg1 = new ButtonGroup();
+ 
+
+      JLabel H1=new JLabel("SELECT PREFERENCE:");
+         H1.setBounds(550, 180, 150, 30);
+         add(H1);
+        rb3 = new JRadioButton("HOSTELLER");
+        rb3.setBounds(550, 220, 100, 30);
+ 
+        rb4 = new JRadioButton("DAY SCHOLAR");
+        rb4.setBounds(650, 220, 120, 30);
+ 
+        ButtonGroup bg2 = new ButtonGroup();
+        bg2.add(rb3);
+        bg2.add(rb4);
+ 
+        String languages[]
+            = { "CO", "E&TC", "EE",
+                "CIVIL", "MECH" ,"IS","IT"};
+        final JComboBox cb
+            = new JComboBox(languages);
+        cb.setBounds(550, 310, 90, 20);
+ 
+        final JLabel label
+            = new JLabel();
+        label.setBounds(600, 430, 500, 30);
+       
+        JButton b = new JButton("SHOW DATA");
+        b.setBounds(530, 410, 150, 40);
+
+ 
+        JLabel ptxt=new JLabel("Note - Click Preview To Veirfy Data");
+        add(ptxt);
+        ptxt.setBounds(530, 450, 230, 40);
+ 
+        JButton Receipt
+            = new JButton("PREVIEW");
+        Receipt.setBounds(530, 490, 150, 40);
+        JButton b2 = new JButton("RESET");
+        b2.setBounds(680, 490, 150, 40);
+        JButton Submit = new JButton("SUBMIT");
+        Submit.setBounds(830, 490, 150, 40);
+ 
+        area2 = new JTextArea();
+        area2.setBounds(530, 540, 450, 240);
+
+        JButton aboutbtn=new JButton("ABOUT");
+        aboutbtn.setBounds(945, 5, 100, 35);
+        add(aboutbtn);
+        
+        add(l1);
+        add(header);
+        add(l2);
+        add(l3);
+        add(l4);
+        add(l5);
+        add(l6);
+        add(l7);
+        add(l8);
+        add(l9);
+        add(l10);
+        add(l11);
+        add(l12);
+        add(l13);
+        add(l14);
+        add(tf1);
+        add(tf2);
+        add(tf3);
+        add(tf4);
+        add(tf5);
+       
+       // add(tf6);
+        add(nati);
+        add(tf7);
+        add(tf8);
+        add(area1);
+        add(area2);
+        add(l15);
+        add(rb3);
+        add(rb4);
+        add(r5);
+        add(r6);
+        add(cb);
+        add(cb1);
+        add(cb2);
+
+
+        add(b);
+        add(label);
+        add(Receipt);
+        add(b2);
+        add(Submit);
+        
+        
+    
+        
+  // show data button action
+        b.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(
+                        ActionEvent e)
+                    {
+                        new Dashboard();
+                    }
+                });
+        
+       
+        // Reset the text fields
+        
+        b2.addActionListener(
+            new ActionListener() {
+                public void actionPerformed(
+                    ActionEvent e)
+                {
+                    area2.setText("");
+                    area1.setText("");
+                    tf1.setText("");
+                    tf2.setText("");
+                    tf3.setText("");
+                    tf4.setText("");
+                    tf5.setText("");
+                    tf7.setText("");
+                    tf8.setText("");
+                   // tf6.setText("");
+                    
+                   
+                    rb3.setSelected(false);
+                    rb4.setSelected(false);
+                    r5.setSelected(false);
+                    r6.setSelected(false);
+                    
+                }
+            });
+        
+        aboutbtn.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(
+                        ActionEvent e)
+                    {
+                    	JOptionPane.showMessageDialog(tf1, "TYCO-5th SEM MICROPROJECT \r\n  "
+                    			+ "Team Memebers -\r\n 1.2268-Rohan Samadhan Mali \r\n 2.2262-Shruti Suresh Chavan \r\n 3.2207-Aniket Satish Pawar",
+            					null, JOptionPane.INFORMATION_MESSAGE);
+                    }
+                });
+ 
+        // Implementing the insert action-----------------------------------------------------------------------------------------//
+      
+        Submit.addActionListener(
+            new ActionListener() {
+                public void actionPerformed(ActionEvent e) 
+       
+                
+                {
+        	
+                	try {  
+                		
+          	String nm=null,fnm=null,em=null,cont=null,nat=null,teny=null,twy=null,tenm=null,twm=null,pre = null,bran=null,add=null,gend = null;
+             		int rn=-1;
+             			
+             		    //validation flags
+             		    boolean emflag=true;
+             		
+             		nm=tf1.getText();
+             		fnm=tf2.getText();
+             	    rn=Integer.parseInt(tf3.getText());
+             		em=tf4.getText();
+             		cont=tf5.getText();
+             		add=area1.getText();
+             		nat=(String) nati.getSelectedItem();
+             		
+             	
+             		
+             	
+             		    if(r5.isSelected())
+             		    {
+             		        gend= "Male";
+             		    }
+             		    else if(r6.isSelected())
+             		    {
+             		        gend="Female";
+             		    }
+             		   
+             		
+             		
+             		teny=(String) cb1.getSelectedItem();
+             		twy=(String) cb2.getSelectedItem();
+             		
+             		tenm=tf7.getText();
+             		twm=tf8.getText();
+             		
+             		if(rb3.isSelected())
+             		{
+             			pre="Day Scholar";
+             		}
+             		if(rb4.isSelected())
+             		{
+             			pre="Hosteller";
+             		}
+             
+             		bran=(String) cb.getSelectedItem();
+             		
+             		
+             		
+             		//validation of empty fields
+                 	if(nm.length()==0 || fnm.length()==0 ||em.length()==0 ||cont.length()==0  ||rn==-1 ||nat.length()==0  ||teny.length()==0  ||twy.length()==0  ||tenm.length()==0  ||twm.length()==0  ||pre.length()==0 ||bran.length()==0  ||add.length()==0  ||gend.length()==0 )
+                 	{
+                 		JOptionPane.showMessageDialog(tf1, "Check For Empty Field(s), Every Field is Required",
+            					gend, JOptionPane.ERROR_MESSAGE);
+                 		return;
+                 	}
+             		
+             		
+             		
+             		//validation of gmail
+             		if(!em.contains("gmail.com"))
+             		{
+             			JOptionPane.showMessageDialog(tf1, "Incorrect Gmail ID",
+            					gend, JOptionPane.ERROR_MESSAGE);
+             			emflag=false;
+             			return;
+             			
+             		}
+             		
+             		//marks validation
+             		int m1=Integer.parseInt(tenm);
+             	    int m2=Integer.parseInt(twm);
+                 boolean mflag=false;
+                 	if(( m1>=0 && m1<=100) && (m2>=0 && m2<=100) )
+                 	{
+                 		mflag=true;
+                 	}
+                 	else
+                 	{
+                 		JOptionPane.showMessageDialog(tf1, "Invalid Marks",
+            			gend, JOptionPane.ERROR_MESSAGE);
+                 		mflag=false;
+                 		return;
+                 		
+                 	}
+                 	String enrolllen=Integer.toString(rn);
+                 	boolean enrollflag=true;
+                 	if(enrolllen.length()!=10)
+                 	{
+                 		enrollflag=false;
+                 		JOptionPane.showMessageDialog(tf1, "Incorrect Enrollment Number",
+            					gend, JOptionPane.ERROR_MESSAGE);
+                 		return;
+                 		
+                 	}  
+                 	String Contactvali=tf5.getText();
+                 	boolean contflag=true;
+                 	if(Contactvali.length()!=10)
+                 	{
+                 		contflag=false;
+                 		JOptionPane.showMessageDialog(tf1, "Incorrect Contact Number",
+            					gend, JOptionPane.ERROR_MESSAGE);
+                 		return;
+                 	} 
+                 	
+          	
+             		
+             	
+             	
+             	 if(emflag && mflag && enrollflag && contflag)
+             	{
+             		Connection conn=null;
+                   	
+               		String url,username = null,password = null;
+               		url="jdbc:mysql://localhost:3306/ajp_1";
+               		username="root";
+               		password="123";
+                  
+               		
+               			try {
+               		 	
+               			Class.forName("com.mysql.jdbc.Driver");
+             				conn =DriverManager.getConnection(url, username, password);
+
+          
+             	   
+           String sql="INSERT INTO admissions(Sname, Lname,enrollno,Emid,Mobile,Address,Gender,Nationality,10th_Y,12th_Y,10th_M,12th_M,Prefer,Branch)"
+           		+ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+     			
+         			
+     				PreparedStatement ps = conn.prepareStatement(sql);
+     				
+     				//this will set the value of ??? in sql query 
+     				ps.setString(1, nm);
+     				ps.setString(2, fnm);
+     				ps.setInt(3, rn);
+     				ps.setString(4, em);
+     				ps.setString(5, cont);
+     				ps.setString(6, add);
+     				ps.setString(7, gend);
+     				ps.setString(8, nat);
+     				ps.setString(9, teny);
+     				ps.setString(10, twy);
+     				ps.setString(11, tenm);
+     				ps.setString(12, twm);
+     				ps.setString(13, pre);
+     				ps.setString(14, bran);
+
+     				
+     				ps.executeUpdate();
+     				conn.close();
+     				
+     			   JOptionPane.showMessageDialog(null, "Data added");
+     			   
+     			  System.out.println("connected");
+               			}
+               			catch(SQLException sqex)
+               			{
+               				JOptionPane.showMessageDialog(null, sqex.getMessage(),"SQLError",
+                					JOptionPane.ERROR_MESSAGE);
+               				//sqex.printStackTrace();
+               			}
+             	}//if block for empty check 
+                }
+               		
+               		catch( Exception ex)
+            		{
+            			JOptionPane.showMessageDialog(null, "Check For Empty Field,Every Field is Required","Error",
+            					JOptionPane.ERROR_MESSAGE);
+               			//ex.printStackTrace();
+            		}	
+                	
+                
+                }
+                
+ 
+                
+            });
+                  
+ 
+        // Generating the Preview for data confirmation
+        Receipt.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e)
+            {
+ 
+            	
+                area2.setText(
+                    "----------------------------"
+                    + "---------Please Confirm Entered Details----"
+                    + "--------------------------"
+                    + "--------------------------"
+                    + "-------------------\n");
+ 
+                area2.setText(area2.getText()
+                              + "First Name: "
+                              + tf1.getText()
+                              + "\n");
+                area2.setText(area2.getText()
+                              + "Last Name: "
+                              + tf2.getText()
+                              + "\n");
+                area2.setText(area2.getText()
+                              + "EnrollMent Number: "
+                              + tf3.getText()
+                              + "\n");
+                area2.setText(area2.getText()
+                              + "Email ID: "
+                              + tf4.getText()
+                              + "\n");
+                area2.setText(area2.getText()
+                              + "Contact Number: "
+                              + tf5.getText()
+                              + "\n");
+                area2.setText(area2.getText()
+                              + "Wants to take: "
+                              + cb.getSelectedItem()
+                                    .toString()
+                              + "\n");
+
+                if (rb3.isSelected()) {
+                    area2.setText(area2.getText()
+                                  + "Wants to be a "
+                                  + "Hosteller \n");
+                }
+                if (rb4.isSelected()) {
+                    area2.setText(area2.getText()
+                                  + "Wants to be a "
+                                  + "Day Scholar \n");
+                }
+            	
+             area2.setEditable(false);;
+
+            };
+        });
+        addWindowListener(
+            new WindowAdapter() {
+                public void windowClosing(
+                    WindowEvent we)
+                {
+                    System.exit(0);
+                }
+            });
+        setSize(1070, 850);
+        setLayout(null);
+        setVisible(true);
+        getContentPane().setBackground(new Color(180,180,180));
+    }
+    public void onlyIntegers(JTextField t)
+    {
+    	 t.addKeyListener(new KeyAdapter() {
+             public void keyPressed(KeyEvent ke)
+             {
+             	char ch=ke.getKeyChar();
+             	if(ch>='0'  && ch<='9' || ke.getKeyCode()== 8)
+             	{
+             		t.setEditable(true);
+             	}
+             	else 
+             	{
+             		t.setEditable(false);
+             	}
+             	
+             }   
+             } );
+    }
+    public void checkContact(JTextField t)
+    {
+    	 t.addKeyListener(new KeyAdapter() {
+             public void keyPressed(KeyEvent ke)
+             {
+            	 
+            	 String monum=t.getText();
+            	 int s= monum.length();
+    
+             	char ch=ke.getKeyChar();
+             	if(s<=9 && ch>='0'  && ch<='9' || ke.getKeyCode()== 8  )
+             	{
+             		t.setEditable(true);
+             	}
+             	else 
+             	{
+             		t.setEditable(false);
+             	}
+             	
+             }   
+             } );
+    }
+    public void checkEnrollno(JTextField t)
+    {
+    	 t.addKeyListener(new KeyAdapter() {
+             public void keyPressed(KeyEvent ke)
+             {
+            	 
+            	 String monum=t.getText();
+            	int s= monum.length();
+    
+             	char ch=ke.getKeyChar();
+             	if(s<=9 && ch>='0'  && ch<='9' || ke.getKeyCode()== 8  )
+             	{
+             		t.setEditable(true);
+             	}
+             	else 
+             	{
+             		t.setEditable(false);
+             	}
+             	
+             }   
+             } );
+    }
+    public void onlyChars(JTextField jt)
+    {
+    	jt.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent ke)
+            {
+            	char ch=ke.getKeyChar();
+            	if( ke.getKeyCode()== 16 || (ch >='a'  && ch<='z') || (ch>='A'  && ch<='Z') || ke.getKeyCode()== 8   )
+            	{
+            		jt.setEditable(true);
+            	}
+            	else 
+            	{
+            		jt.setEditable(false);
+            	}
+            	
+            }   
+            } );
+    }
+    
+    public void checkMarks(JTextField t)
+    {
+    	 t.addKeyListener(new KeyAdapter() {
+             public void keyPressed(KeyEvent ke)
+             {
+            	 
+            	// String monum=t.getText();
+            	int s=Integer.parseInt(t.getText());
+    
+             	char ch=ke.getKeyChar();
+             	if( ch>='0'  && ch<='9' || ke.getKeyCode()== 8 && s<=100  )
+             	{
+             		t.setEditable(true);
+             	}
+             	else 
+             	{
+             		t.setEditable(false);
+             	}
+             	
+             }   
+             } );
+    }
+    
+   }
+   
+// login functionality=======================================================================================================================    
+    
+    
+    class login extends JFrame
+    {
+    	login()
+    	{
+    		
+    		//background image for login frame
+    		setContentPane(new JLabel(new ImageIcon("D:\\GPK\\5th Sem\\Projects\\AJP\\bg5.png")));
+    		setBackground(new Color(240,230,140));
+        	
+    		
+    		
+    		setLayout(null);
+    	JLabel T=new JLabel("Login Details");
+    	 T.setBounds(180, 50, 200, 50);
+    	 T.setFont(new Font("Serif", Font.BOLD, 27));
+    	
+    	JTextField em=new JTextField();
+    	JPasswordField pass=new JPasswordField();
+    	 Icon icon = new ImageIcon("D:\\GPK\\5th Sem\\Projects\\AJP\\login.JPG");
+    	JButton Login=new JButton(icon);
+    	
+    	JLabel l1=new JLabel("Enter Your Gmail ID :");
+    	l1.setBounds(150, 160, 200, 30);
+    	l1.setFont(new Font("Serif", Font.BOLD, 17));
+    	JLabel l2=new JLabel("Enter Your Password :");
+    	l2.setBounds(150, 260, 200, 30);
+    	l2.setFont(new Font("Serif", Font.BOLD, 17));
+    	
+    	em.setBounds(150, 200, 200, 40);		
+    	pass.setBounds(150, 300, 200, 40);	
+    	
+    	Login.setBounds(173, 370, 140, 35);	
+    	
+    	ImageIcon regimg= new ImageIcon("D:\\GPK\\5th Sem\\Projects\\AJP\\register.jpg");
+    	JButton reg =new JButton(regimg);
+    	reg.setBounds(175, 440, 140, 35);
+    	
+    	add(l1);
+    	add (T);
+    	add(l2);
+    	add(em);
+    	add (pass);
+    	add(Login);
+    	add(reg);
+    	setVisible(true);
+    	setSize(500,550);
+    	this.setTitle("LOGIN");
+    	
+    	// validations
+    	
+    	 Login.addActionListener(
+    	            new ActionListener() {
+    	                public void actionPerformed(  ActionEvent e)
+    	                  
+    	                {
+    	                	
+    	                	String str1=em.getText();
+    	                	
+    	                	String str2=pass.getText();
+    	                	String pswd=null,tempgmail=null,temppass=null;
+    	                	ResultSet rs = null;
+    	                	  boolean Flag4=false;//to check db pass and gmail
+    	                	
+    	                    
+    	                 
+    	                	  try
+    	              		{
+
+    	              		
+    	                    	Connection conn=null;
+    	                		
+    	                	
+    	                		String url,username = null,password = null;
+    	                		url="jdbc:mysql://localhost:3306/ajp_1";
+    	                		username="root";
+    	                		password="123";
+    	                		try {
+    	                			Class.forName("com.mysql.jdbc.Driver");
+    	              				conn =DriverManager.getConnection(url, username, password);
+    	              				System.out.println("connected");
+    	              			} catch (SQLException | ClassNotFoundException eu) {
+    	              			
+    	              				eu.printStackTrace();
+    	              			}
+    	                    	
+    	              			String sql = "select Gmail,Password from users_1" ;
+    	              			PreparedStatement ps = conn.prepareStatement(sql);
+    	                        rs = ps.executeQuery();			
+    	              			
+    	                       
+    	                      
+    	                    //checking for gmail and password in database
+    	                        while(rs.next())
+    	                        {     
+    	                        	
+                                   tempgmail=rs.getString("Gmail");
+    	              			   temppass=rs.getString("Password");
+    	              			   
+    	              				if(tempgmail.equals(str1)&& temppass.equals(str2))
+    	    	                	{
+    	    	                		Flag4=true;
+    	    	                		break;
+    	    	                	}
+    	              				
+    	                        }
+    	              			
+    	              			
+    	              		}
+    	              		catch(Exception ex)
+    	              		{
+    	              			JOptionPane.showMessageDialog(null, ex.getMessage(),"Error",
+    	              					JOptionPane.ERROR_MESSAGE);
+    	              		}		
+    	                    
+	                 
+    	                 	
+    	                	
+    	      
+    	                	
+    	                	if(Flag4)
+    	                	{
+    	                		 new Main();
+    	                		 setVisible(false);
+    	                	}
+    	                	else 
+    	                	{
+    	                		JOptionPane.showMessageDialog(null,"Invalid Credentials",
+    	              					"Login", JOptionPane.ERROR_MESSAGE);
+    	                		pass.setText("");
+    	                	}
+    	                	
+    	                	
+    	                }
+    	                
+    	            });
+    	 
+   
+    	 reg.addActionListener(new ActionListener()
+    			 { 
+    		 public void actionPerformed(ActionEvent ae)
+    		 {
+    			//setVisible(false);
+    			 new Register();
+    		 }
+    		 
+    			 });
+    	
+    	//close frame
+    	addWindowListener(
+    	            new WindowAdapter() {
+    	                public void windowClosing(
+    	                    WindowEvent se)
+    	                {
+    	                    System.exit(0);
+    	                }
+    	            });
+    	}
+    	
+    }
+    
+    //register new user //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    class Register extends JFrame
+    {
+    	Register()
+    	{
+    		
+    		
+    		setContentPane(new JLabel(new ImageIcon("D:\\GPK\\5th Sem\\Projects\\AJP\\bg5.png")));
+    		JLabel l1,l2,l3,l4,l5,header;
+    		
+    		JTextField tfemail,tfpasswd;
+    		
+    		
+    		header=new JLabel("New User Registration");
+    		header.setBounds(120,50,290,40);
+    		header.setFont(new Font("Serif", Font.BOLD, 26));
+    		this.add(header);
+    		
+    		
+    		l2=new JLabel("Enter Your Gmail ID :");
+    		l2.setBounds(130,180, 230, 40);
+    		l2.setFont(new Font("Serif", Font.BOLD, 17));
+    		this.add(l2);
+    		
+    		tfemail=new JTextField();
+    		 tfemail.setBounds(130,230, 230, 40);
+    		 this.add(tfemail);
+    		 
+    		 
+    		 l3=new JLabel("Enter Your Password:");
+     		l3.setBounds(130,290, 230, 40);
+     		l3.setFont(new Font("Serif", Font.BOLD, 17));
+     		this.add(l3);
+     		
+     		tfpasswd=new JTextField();
+     		tfpasswd.setBounds(130,340, 230, 40);
+     		 this.add(tfpasswd);
+     		 
+    		
+    		JButton adduser=new JButton(new ImageIcon("D:\\\\GPK\\\\5th Sem\\\\Projects\\\\AJP\\\\add user.jpg"));
+    		add(adduser);
+    		adduser.setBounds(170, 430, 140, 35);
+    		
+    		l4=new JLabel();
+    		add(l4);
+    		
+    		adduser.addActionListener(new ActionListener()
+    				{
+    			 public void actionPerformed(ActionEvent ae)
+    			 {
+    				 
+    			
+    				//validations 
+    		    		boolean Flg1=true,Flg2=true,Flg3=false,Flg4=false;
+    		    		
+    		    		String emid="@gmail.com";
+    		    		
+    		    		
+    		    		if(!(tfemail.getText()).contains(emid) )
+    		        	{
+    		        		tfemail.setText("INVALID GMAIL ID");
+    		        		Flg1=false;
+    		        	}
+    		    		
+    		    		
+                  
+    		    		   
+	                	String specialCharactersString = "!@#$%&*()'+,-./:;<=>?[]^_`{|}";
+	                
+	                	for (int i=0; i < tfpasswd.getText().length() ; i++)
+	                       {
+	                           char ch =tfpasswd.getText().charAt(i);
+	                           if(specialCharactersString.contains(Character.toString(ch))) {
+	                        	 
+	                        	   Flg3=true;
+	                               break;
+	                           }    
+	                	
+	                       }
+	                	
+	                	String tempchecker=tfpasswd.getText();
+	                	
+	                	if(!Flg3)
+	                	{
+	                		 tfpasswd.setText("PASSWORD MUST CONTAIN SPECIAL CHARACTER");
+	                	}
+	                
+	                	else if(tempchecker.length()<6)
+	                	{
+	                		tfpasswd.setText("PASSWORD LENGTH MUST BE >= 6");
+	                      Flg2=false;
+	                	}
+	                
+	                	
+	                	for(int i=0;i<tempchecker.length();i++){
+	                    	if(Character.isUpperCase(tempchecker.charAt(i))){
+	                        	Flg4=true;
+	                        	break;
+	                        }
+	                    }
+	                	if(!Flg4)
+	                	{  
+	                		tfpasswd.setText("PASSWORD MUST CONTAIN CAPITAL LETTER");
+	                	}
+	                	
+	                	if(tempchecker.length()==0)
+	                	{
+	                		tfpasswd.setText("THIS FIELD CANT BE EMPTY");
+	                    
+	                	}
+	            		                	
+    				 
+    if(Flg1 && Flg2 && Flg3 && Flg4) {
+    				 
+    				 try {
+    					 
+    					 String email=null,pass=null;
+    					 
+    					
+    					 email=tfemail.getText();
+    					 pass=tfpasswd.getText();
+    					 
+    				 
+    					Connection conn=null;
+                       	
+                   		String url,username = null,password = null;
+                   		url="jdbc:mysql://localhost:3306/ajp_1";
+                   		username="root";
+                   		password="123";
+                      
+                   		
+                   			try {
+                   		 	
+                   			Class.forName("com.mysql.jdbc.Driver");
+                 				conn =DriverManager.getConnection(url, username, password);
+
+              
+                 	   
+                   		String sql="INSERT INTO users_1(Gmail,Password) VALUES(?,?)";
+         				
+             			
+         				PreparedStatement ps = conn.prepareStatement(sql);
+         				
+         				
+         				ps.setString(1, email);
+         				ps.setString(2, pass);
+         				
+         				  
+         				ps.executeUpdate();
+         				conn.close();
+         				
+         			   JOptionPane.showMessageDialog(null, "New User Added");
+         			 
+         			   
+         			  System.out.println("connected");
+                   			}
+                   			catch(SQLException sqex)
+                   			{
+                   				JOptionPane.showMessageDialog(null, sqex.getMessage(),"Error",
+                    					JOptionPane.ERROR_MESSAGE);
+                   				//sqex.printStackTrace();
+                   			}
+                 	}
+                   		
+                   		catch( Exception ex)
+                		{
+                			JOptionPane.showMessageDialog(null, ex.getMessage(),"Error",
+                					JOptionPane.ERROR_MESSAGE);
+                   			//ex.printStackTrace();
+                		}	
+                 		
+                    
+                    }
+    				 
+    			 
+        }//flags
+    				});
+    	
+    		
+    		
+    		
+    		
+    		this.setVisible(true);
+    		this.setLayout(null);
+    		this.setTitle("REGISTER");
+    		setSize(500,600);
+    	}
+    }
+    
+ //database data display==================================================================================================================   
+    
+  class Dashboard extends JFrame
+  {
+	  
+	JLabel l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15;
+	
+	DefaultTableModel model = new DefaultTableModel();
+	  JTable DBdata=new JTable(model);
+	  
+	public Dashboard()
+	 { 
+		
+		setContentPane(new JLabel(new ImageIcon("D:\\GPK\\5th Sem\\Projects\\AJP\\dashbg.png")));
+	    JLabel T1=new JLabel("DASHBOARD");
+        T1.setBounds(800, 50, 550, 50);
+       
+        T1.setFont(new Font("Serif", Font.BOLD, 30));
+        add(T1);
+        
+        
+        JLabel T2=new JLabel("Details Of Admitted Students...");
+        T2.setBounds(730, 100, 550, 50);
+        T2.setFont(new Font("Serif", Font.BOLD, 25));
+
+        add(T2);
+
+      String column_names[]= {"SNO","LName","SFNAME","EnrollNo","EMID","Mobile","Adress","Gender","Nationality","10th_Y","12th_Y","10th_M","12th_M","Prefer","Branch"};
+      
+      l1 = new JLabel("SRNO");
+      l1.setBounds(88, 165, 50, 50);
+      l1.setFont(new Font("Serif", Font.BOLD, 17));
+      add(l1);
+      
+      l2 = new JLabel("NAME");
+      l2.setBounds(180, 165, 60, 50);
+      l2.setFont(new Font("Serif", Font.BOLD, 17));
+      add(l2);
+      
+      l3 = new JLabel("LAST NAME");
+      l3.setBounds(290, 165, 160, 50);
+      l3.setFont(new Font("Serif", Font.BOLD, 17));
+      add(l3);
+      
+      l4 = new JLabel("ENROLLNO");
+      l4.setBounds(440, 165, 100, 50);
+      l4.setFont(new Font("Serif", Font.BOLD, 17));
+      add(l4);
+      
+      l5 = new JLabel("GMAIL");
+      l5.setBounds(560, 165, 100, 50);
+      l5.setFont(new Font("Serif", Font.BOLD, 17));
+      add(l5);
+      
+      l6 = new JLabel("MOBILE NO");
+      l6.setBounds(675, 165, 100, 50);
+      l6.setFont(new Font("Serif", Font.BOLD, 17));
+      add(l6);
+      
+      l7 = new JLabel("ADDRESS");
+      l7.setBounds(790, 165, 100, 50);
+      l7.setFont(new Font("Serif", Font.BOLD, 17));
+      add(l7);
+      
+      l8 = new JLabel("GENDER");
+      l8.setBounds(940, 165, 100, 50);
+      l8.setFont(new Font("Serif", Font.BOLD, 17));
+      add(l8);
+      
+      l9 = new JLabel("NATIONALITY");
+      l9.setBounds(1040, 165, 140, 50);
+      l9.setFont(new Font("Serif", Font.BOLD, 17));
+      add(l9);
+      
+      l11 = new JLabel("10th YEAR");
+      l11.setBounds(1170, 165, 80, 50);
+      l11.setFont(new Font("Serif", Font.BOLD, 17));
+      add(l11);
+      
+      
+      l10 = new JLabel("12th YEAR");
+      l10.setBounds(1310, 165, 80, 50);
+      l10.setFont(new Font("Serif", Font.BOLD, 17));
+      add(l10);
+      
+      
+      
+      l13 = new JLabel("10th MARKS");
+      l13.setBounds(1430, 165, 100, 50);
+      l13.setFont(new Font("Serif", Font.BOLD, 17));
+      add(l13);
+      
+      l12 = new JLabel("12th MARKS");
+      l12.setBounds(1560, 165, 100, 50);
+      l12.setFont(new Font("Serif", Font.BOLD, 17));
+      add(l12);
+      
+      l14 = new JLabel("PREFERS");
+      l14.setBounds(1680, 165, 80, 50);
+      l14.setFont(new Font("Serif", Font.BOLD, 17));
+      add(l14);
+      
+      l15 = new JLabel("BRNACH");
+      l15.setBounds(1780, 165, 80, 50);
+      l15.setFont(new Font("Serif", Font.BOLD, 17));
+      add(l15);
+      
+      JLabel del1=new JLabel("ENTER ID TO DELETE RECORD :");
+      del1.setBounds(1180, 70, 300, 50);
+      del1.setFont(new Font("Serif", Font.BOLD, 17));
+      add(del1);
+      
+      JTextField del2=new JTextField();
+      del2.setBounds(1480, 85, 80, 25);
+      add(del2);
+      
+      JButton deleterec=new JButton("Delete");
+      deleterec.setBounds(1580, 80, 100, 35);
+      add(deleterec);
+      
+    
+      
+      
+      
+      // delete record
+      deleterec.addActionListener(
+              new ActionListener() {
+                  public void actionPerformed(
+                      ActionEvent e)
+                  {
+                     
+                	  
+               		try {
+               			
+               			int limit= Integer.valueOf(del2.getText());
+               			
+               			if (DBdata.getRowCount()<limit || limit<=0 )
+               			{
+               				JOptionPane.showMessageDialog(null,"Invalid Serial Number",
+	              					"Login", JOptionPane.ERROR_MESSAGE);
+               			}
+               			
+               			else
+               			{
+               			
+               		Connection conn=null;
+                     	
+                 		String url,username = null,password = null;
+                 		url="jdbc:mysql://localhost:3306/ajp_1";
+                 		username="root";
+                 		password="123";
+                        int num= Integer.parseInt(del2.getText()) ;
+                 		
+                 			try {
+                 		 	
+                 			Class.forName("com.mysql.jdbc.Driver");
+               				conn =DriverManager.getConnection(url, username, password);
+
+            
+               	   
+                 		String sql="DELETE FROM admissions WHERE SR = ? ";
+       				
+           			
+       				PreparedStatement ps = conn.prepareStatement(sql);
+       				
+       				ps.setInt(1, num);
+  
+       				ps.executeUpdate(); 
+       				
+       				
+       			
+       				
+       			   JOptionPane.showMessageDialog(null, "Data Deleted");
+       			   
+       			     //method call       			
+       		 	
+       			Update_table();
+       			
+               	  	
+       			  System.out.println("connected");
+       			  
+                 			}
+                 			
+                 				catch(SQLException sqex)
+                 			{
+                 					JOptionPane.showMessageDialog(null,"Invalid Serial Number",
+        	              					"Login", JOptionPane.ERROR_MESSAGE);
+                 				
+                 			}
+                 			
+               			}//else ends
+                 			
+               	}
+                 		
+                 		catch( Exception ex)
+              		{
+                 			JOptionPane.showMessageDialog(null,"Invalid Serial Number",
+	              					"Login", JOptionPane.ERROR_MESSAGE);
+                 			
+              		}	
+               	
+               	   	     
+                  }	  
+                	  
+                  
+              });
+      
+
+
+     displaydata();
+      //reload records
+    
+
+       //close frame
+       addWindowListener(
+	            new WindowAdapter() {
+	                public void windowClosing(
+	                    WindowEvent se)
+	                {
+	                   setVisible(false);
+
+	                }
+	            });
+            
+      
+	  }
+	
+	// Reload the table after Data deletion
+	public void Update_table()
+	{
+		model.setRowCount(0);
+	//	model.setColumnCount(0);
+		  try
+			{
+
+			
+	      	Connection conn=null;
+	  		
+	  	
+	  		String url,username = null,password = null;
+	  		url="jdbc:mysql://localhost:3306/ajp_1";
+	  		username="root";
+	  		password="123";
+	  		try {
+	  			Class.forName("com.mysql.jdbc.Driver");
+					conn =DriverManager.getConnection(url, username, password);
+					System.out.println("connected");
+				} catch (SQLException | ClassNotFoundException eu) {
+				
+					eu.printStackTrace();
+				}
+	      	
+				String sql = "select * from admissions";
+				PreparedStatement ps = conn.prepareStatement(sql);
+	          ResultSet rs = ps.executeQuery();			
+				while(rs.next())
+	          {           	   
+
+					 model.addRow(new Object[]{rs.getInt(1), rs.getString(2),rs.getString(3)
+					,rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8)
+				   ,rs.getString(9),rs.getString(10),rs.getString(11),rs.getString(12),rs.getString(13),rs.getString(14),rs.getString(15)});
+				
+					
+	          }
+				 
+				
+				
+			}
+			catch(Exception ex)
+			{
+				JOptionPane.showMessageDialog(null, ex.getMessage(),"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}	
+	
+	}
+	
+	
+	
+	//table printing karayche function --------------------------------------------------
+	public void displaydata()
+       {
+		
+		     
+	     add(DBdata);
+	    
+	      //DBdata.setBounds(10,500,500,400);
+	     
+	     
+	      DBdata.setFont(new Font("Serif",Font.PLAIN, 18));
+	      
+	     
+	      
+	      model.addColumn("SNO");
+	      model.addColumn("SName");
+	      model.addColumn("LNAME");
+	      model.addColumn("EnrollNo");
+	      model.addColumn("EMID");
+	      model.addColumn("Mobile");
+	      model.addColumn("Adress");
+	      model.addColumn("Gender");
+	      model.addColumn("Nationality");
+	      model.addColumn("10th_Y");
+	      model.addColumn("12th_Y");
+	      model.addColumn("10th_M");
+	      model.addColumn("12th_M");
+	      model.addColumn("Prefer");
+	      model.addColumn("Branch");
+	      
+	     	      
+	      try
+			{
+
+			
+	      	Connection conn=null;
+	  		
+	  	
+	  		String url,username = null,password = null;
+	  		url="jdbc:mysql://localhost:3306/ajp_1";
+	  		username="root";
+	  		password="123";
+	  		try {
+	  			Class.forName("com.mysql.jdbc.Driver");
+					conn =DriverManager.getConnection(url, username, password);
+					System.out.println("connected");
+				} catch (SQLException | ClassNotFoundException eu) {
+				
+					eu.printStackTrace();
+				}
+	      	
+				String sql = "select * from admissions";
+				PreparedStatement ps = conn.prepareStatement(sql);
+	          ResultSet rs = ps.executeQuery();			
+				while(rs.next())
+	          {           	   
+
+					 model.addRow(new Object[]{rs.getInt(1), rs.getString(2),rs.getString(3)
+					,rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8)
+				   ,rs.getString(9),rs.getString(10),rs.getString(11),rs.getString(12),rs.getString(13),rs.getString(14),rs.getString(15)});
+				
+					
+	          }
+				 
+				
+				
+			}
+			catch(Exception ex)
+			{
+				JOptionPane.showMessageDialog(null, ex.getMessage(),"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}		
+	      DBdata.setFont(new Font("Serif", Font.BOLD, 20));
+	       setVisible(true);
+	       setSize(2000,1000);
+	       DBdata.setBounds(50,200,1850,700);
+	       setLayout(null);
+	       
+	       
+	   
+	     
+       }
+	  
+  }
+
+    public class AJP_Project
+    {
+
+ 	  	
+    	public static void main(String[] args)
+    	    {
+    		   
+    		   new login();
+    	       
+    	    }
+    }
